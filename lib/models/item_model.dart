@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class ItemModel {
   int _page;
   int _totalResults;
