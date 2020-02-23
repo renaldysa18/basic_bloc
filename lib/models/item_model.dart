@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class ItemModel {
   int _page;
   int _totalResults;
@@ -46,6 +48,7 @@ class Result {
     _posterPath = result['poster_path'];
     _id = result['id'];
     _adult = result['adult'] ? null : false;
+    _voteAverage = result['vote_average'] != null ? result['vote_average'].toDouble() : 0;
     _backdropPath = "${result['backdrop_path'] ?? ""}";
     _title = "${result['title'] ?? ""}";
     _overview = "${result['overview'] ?? ""}";
