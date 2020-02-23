@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/blocs/movie_bloc.dart';
 import 'package:bloc_pattern/models/item_model.dart';
+import 'package:bloc_pattern/ui/movie_detail.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
@@ -55,12 +56,29 @@ class _MovieListState extends State<MovieList> {
           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (BuildContext context, int index) {
         return GridTile(
-          child: Image.network(
-            'https://image.tmdb.org/t/p/w185${snapshot.data.results[index].poster_path}',
-            fit: BoxFit.cover,
+          child: InkResponse(
+            enableFeedback: true,
+            child: Image.network(
+              'https://image.tmdb.org/t/p/w185${snapshot.data.results[index].poster_path}',
+              fit: BoxFit.cover,
+            ),
+            onTap: () => openDetailMovie(snapshot.data, index),
           ),
         );
       },
     );
+  }
+
+  ///open detail movie
+  openDetailMovie(ItemModel data, int index){
+    Navigator.push(context, MaterialPageRoute(builder: (context){
+      return MovieDetail(
+        posterUrl: data.results[index].backdrop_path,
+        overview: data.results[index].overview,
+        title: data.results[index].title,
+        voteAverage: data.results[index].vote_average.toDouble(),
+        movieId: data.results[index].id.toInt(),
+      );
+    }));
   }
 }
