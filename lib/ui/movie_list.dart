@@ -1,4 +1,5 @@
 import 'package:bloc_pattern/blocs/movie_bloc.dart';
+import 'package:bloc_pattern/blocs/movie_detail_bloc_provider.dart';
 import 'package:bloc_pattern/models/item_model.dart';
 import 'package:bloc_pattern/ui/movie_detail.dart';
 import 'package:flutter/material.dart';
@@ -70,15 +71,21 @@ class _MovieListState extends State<MovieList> {
   }
 
   ///open detail movie
-  openDetailMovie(ItemModel data, int index){
-    Navigator.push(context, MaterialPageRoute(builder: (context){
-      return MovieDetail(
+  openDetailMovie(ItemModel data, int index) {
+    final page = MovieDetailBlocProvider(
+      child: MovieDetail(
         posterUrl: data.results[index].backdrop_path,
         overview: data.results[index].overview,
-        title: data.results[index].title,
-        voteAverage: data.results[index].vote_average.toDouble(),
-        movieId: data.results[index].id.toInt(),
-      );
-    }));
+        title:  data.results[index].title,
+        voteAverage: data.results[index].vote_average,
+        movieId: data.results[index].id,
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return page;
+      }),
+    );
   }
 }
